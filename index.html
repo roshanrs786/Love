@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our First Year Together</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff5f5;
+            overflow-x: hidden;
+        }
+        
+        .dancing-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ff6b81;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .photo-frame {
+            border: 15px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: rotate(-5deg);
+            transition: all 0.3s ease;
+        }
+        
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .message-box {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 75% 85%, 75% 100%, 50% 85%, 0% 85%);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(3deg);
+            transition: all 0.3s ease;
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .polaroid:nth-child(even) {
+            transform: rotate(-3deg);
+        }
+        
+        .polaroid:nth-child(even):hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff6b81;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #ff6b81;
+        }
+        
+        .timeline-item:after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 10px;
+            width: 2px;
+            height: 100%;
+            background: #ff6b81;
+        }
+        
+        .timeline-item:last-child:after {
+            display: none;
+        }
+        
+        /* Updated Envelope and Letter Styles */
+        .envelope-container {
+            height: 300px;
+        }
+        
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #ff9a9e;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+        
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #fad0c4;
+            transform-origin: top;
+            transition: all 0.5s ease;
+        }
+        
+        .envelope.open {
+            transform: translateY(-50px);
+        }
+        
+        .envelope.open:before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+        
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: white;
+            left: 5%;
+            top: 5%;
+            border-radius: 3px;
+            transition: all 0.5s ease;
+            z-index: 1;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        .letter-content {
+            height: 100%;
+            overflow-y: auto;
+            transition: opacity 0.3s ease;
+        }
+        
+        .extracted-letter {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .extracted-letter.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -120%);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -80%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -100%);
+            }
+        }
+    </style>
+</head>
+<body class="text-pink-900">
+    <!-- Floating Hearts Background -->
+    <div class="fixed inset-0 overflow-hidden z-0">
+        <div class="absolute top-10 left-1/4 heart opacity-30"></div>
+        <div class="absolute top-1/3 left-3/4 heart opacity-30"></div>
+        <div class="absolute top-2/3 left-1/6 heart opacity-30"></div>
+        <div class="absolute bottom-20 left-2/3 heart opacity-30"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative">
+            <div class="text-center mb-10 fade-in">
+                <h1 class="dancing-font text-6xl md:text-8xl font-bold text-pink-600 mb-6">Happy Anniversary!</h1>
+                <p class="text-xl md:text-2xl mb-8">One year of love, laughter, and unforgettable moments</p>
+                
+                <div class="flex justify-center">
+                    <div class="heart mx-4"></div>
+                </div>
+            </div>
+            
+            <div class="photo-frame max-w-md mx-auto mb-10">
+                <img src="images/couple-main.jpg" 
+                     alt="Couple photo" class="w-full h-auto">
+            </div>
+            
+            <div class="message-box text-white p-6 md:p-8 max-w-2xl mx-auto text-center">
+                <p class="text-xl md:text-2xl dancing-font mb-4">To the love of my life,</p>
+                <p class="mb-4">365 days ago, my life changed forever when I met you on May 2. Every moment since then has been a beautiful adventure.</p>
+                <p class="dancing-font text-2xl">I love you more than words can express.</p>
+            </div>
+            
+            <div class="mt-12 animate-bounce">
+                <a href="#memories" class="text-pink-600 text-4xl"><i class="fas fa-chevron-down"></i></a>
+            </div>
+        </section>
+        
+        <!-- Our Journey -->
+        <section id="memories" class="py-20 px-4 bg-white bg-opacity-80">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="dancing-font text-4xl md:text-5xl text-center mb-16 text-pink-600">Our Beautiful Journey</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="polaroid p-4">
+                        <img src="images/first-date.jpg" 
+                             alt="First date" class="w-full h-auto mb-2">
+                        <p class="text-center dancing-font text-xl">Our First Date</p>
+                    </div>
+                    <div class="polaroid p-4">
+                        <img src="images/summer-getaway.jpg" 
+                             alt="Beach trip" class="w-full h-auto mb-2">
+                        <p class="text-center dancing-font text-xl">Summer Getaway</p>
+                    </div>
+                    <div class="polaroid p-4">
+                        <img src="images/special-celebration.jpg" 
+                             alt="Celebration" class="w-full h-auto mb-2">
+                        <p class="text-center dancing-font text-xl">A Day with You</p>
+                    </div>
+                </div>
+                
+                <div class="max-w-3xl mx-auto">
+                    <h3 class="text-2xl md:text-3xl dancing-font text-center mb-8 text-pink-600">Timeline of Our Love</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="bg-pink-50 p-6 rounded-lg shadow-sm">
+                                <h4 class="text-xl font-semibold mb-2">The Day We Met</h4>
+                                <p class="text-gray-700">That magical moment when our eyes first met and I knew you were special.</p>
+                                <p class="text-sm text-pink-500 mt-2">May 2, 2024</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="bg-pink-50 p-6 rounded-lg shadow-sm">
+                                <h4 class="text-xl font-semibold mb-2">First "I Love You"</h4>
+                                <p class="text-gray-700">The moment my heart couldn't hold it in any longer and the words just spilled out.</p>
+                                <p class="text-sm text-pink-500 mt-2">May 2, 2024</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="bg-pink-50 p-6 rounded-lg shadow-sm">
+                                <h4 class="text-xl font-semibold mb-2">Our First Trip Together</h4>
+                                <p class="text-gray-700">Exploring new places with you by my side made every moment an adventure.</p>
+                                <p class="text-sm text-pink-500 mt-2">October 10, 2024</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="bg-pink-50 p-6 rounded-lg shadow-sm">
+                                <h4 class="text-xl font-semibold mb-2">Today - One Year Together</h4>
+                                <p class="text-gray-700">365 days of your smile, your laugh, your love. Here's to many more!</p>
+                                <p class="text-sm text-pink-500 mt-2">May 2, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Love Letter -->
+        <section class="py-20 px-4 bg-pink-50">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="dancing-font text-4xl md:text-5xl mb-12 text-pink-600">A Letter For You</h2>
+                
+                <div class="flex flex-col items-center mb-12">
+                    <div class="envelope-container relative">
+                        <div class="envelope cursor-pointer mx-auto">
+                            <div class="letter">
+                                <div class="letter-content">
+                                    <p class="dancing-font text-xl mb-4">My Dearest Love,</p>
+                                    <p class="mb-3">As I sit down to write this letter on our first anniversary, May 2, my heart is overflowing with love for you.</p>
+                                    <p class="mb-3">This past year with you has been the most incredible journey. You've brought so much joy, laughter, and meaning into my life.</p>
+                                    <p class="mb-3">You've seen me at my best and my worst, and you love me through it all. Your patience, kindness, and understanding amaze me every day.</p>
+                                    <p class="mb-3">I promise to keep choosing you every single day, to be your partner in all things, to support your dreams, and to love you with all that I am.</p>
+                                    <p class="dancing-font text-xl mt-6">Forever Yours,</p>
+                                    <p class="dancing-font text-2xl">Roshan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="extracted-letter">
+                            <!-- This will be populated with the letter content when envelope is clicked -->
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-xl mb-8">Click the envelope to read my love letter</p>
+            </div>
+        </section>
+        
+        <!-- Reasons I Love You -->
+        <section class="py-20 px-4 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="dancing-font text-4xl md:text-5xl text-center mb-16 text-pink-600">100 Reasons I Love You</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Smile</h3>
+                        <p>It lights up my world even on the darkest days.</p>
+                    </div>
+                    
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Laugh</h3>
+                        <p>It's my favorite sound in the whole world.</p>
+                    </div>
+                    
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Kindness</h3>
+                        <p>You always see the good in people.</p>
+                    </div>
+                    
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Strength</h3>
+                        <p>You face challenges with such courage.</p>
+                    </div>
+                    
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Intelligence</h3>
+                        <p>I love how your mind works.</p>
+                    </div>
+                    
+                    <div class="bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">Your Passion</h3>
+                        <p>When you care about something, you give it your all.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button id="showMoreBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full transition-all">
+                        Show More Reasons
+                    </button>
+                </div>
+                
+                <div id="moreReasons" class="hidden mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- More reasons would be added here by JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Countdown to Next Anniversary -->
+        <section class="py-20 px-4 bg-pink-100">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="dancing-font text-4xl md:text-5xl mb-12 text-pink-600">Counting Down to Year 2</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div id="days" class="text-4xl md:text-5xl font-bold text-pink-600 mb-2">00</div>
+                        <div class="text-lg">Days</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div id="hours" class="text-4xl md:text-5xl font-bold text-pink-600 mb-2">00</div>
+                        <div class="text-lg">Hours</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div id="minutes" class="text-4xl md:text-5xl font-bold text-pink-600 mb-2">00</div>
+                        <div class="text-lg">Minutes</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div id="seconds" class="text-4xl md:text-5xl font-bold text-pink-600 mb-2">00</div>
+                        <div class="text-lg">Seconds</div>
+                    </div>
+                </div>
+                
+                <p class="text-xl mb-8">Until we celebrate another year of love together!</p>
+            </div>
+        </section>
+        
+        <!-- Final Message -->
+        <section class="py-20 px-4 bg-pink-600 text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="dancing-font text-4xl md:text-5xl mb-8">Thank You for an Amazing Year</h2>
+                
+                <div class="heart mx-auto mb-8"></div>
+                
+                <p class="text-xl mb-6">This past year with you has been the most beautiful chapter of my life.</p>
+                <p class="text-xl mb-6">I can't wait to see what our future holds.</p>
+                <p class="dancing-font text-3xl mb-10">I love you more than yesterday, but less than tomorrow.</p>
+                
+                <div class="flex justify-center space-x-4">
+                    <button onclick="showLoveMessage()" class="bg-white text-pink-600 hover:bg-pink-100 font-bold py-3 px-6 rounded-full transition-all">
+                        <i class="fas fa-heart mr-2"></i> Love You
+                    </button>
+                    <button onclick="showForeverMessage()" class="bg-transparent border-2 border-white hover:bg-white hover:text-pink-600 font-bold py-3 px-6 rounded-full transition-all">
+                        <i class="fas fa-kiss-wink-heart mr-2"></i> Forever Yours
+                    </button>
+                </div>
+
+                <!-- Special Message Modal -->
+                <div id="specialMessageModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                    <div class="bg-white p-8 rounded-lg max-w-md mx-4 relative transform transition-all">
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div id="modalContent" class="text-center">
+                            <!-- Content will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Countdown to next anniversary
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const nextAnniversary = new Date(currentYear, 4, 2); // May 2 (month is 0-indexed, so 4 = May)
+            
+            // If we're past May 2nd this year, set for next year
+            if (now > nextAnniversary) {
+                nextAnniversary.setFullYear(currentYear + 1);
+            }
+            
+            const diff = nextAnniversary - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        // Initial call to avoid delay
+        updateCountdown();
+        
+        // Show more reasons
+        const moreReasons = [
+            "The way you make me feel safe",
+            "Your beautiful eyes",
+            "How you always know what to say",
+            "Your incredible cooking",
+            "The way you care for others",
+            "Your sense of humor",
+            "How you challenge me to be better",
+            "Your patience with me",
+            "The way you look at me",
+            "Your adventurous spirit",
+            "How you remember little things about me",
+            "Your work ethic",
+            "The way you make ordinary moments special",
+            "Your hugs",
+            "How you always support my dreams",
+            "Your creativity",
+            "The way you dance when you think no one's watching",
+            "Your honesty",
+            "How you make our house a home",
+            "Your singing voice (even if you think it's bad)",
+            "The way you light up when you talk about your passions",
+            "Your determination to achieve your goals",
+            "How you make me laugh even on my worst days",
+            "Your beautiful smile that brightens my day",
+            "The way you understand me without words",
+            "Your kindness towards strangers",
+            "How you always put others before yourself",
+            "Your positive outlook on life",
+            "The way you handle difficult situations with grace",
+            "Your ability to make friends wherever you go",
+            "How you remember all our special moments",
+            "Your dedication to self-improvement",
+            "The way you make time for what matters",
+            "Your beautiful handwriting",
+            "How you always know how to comfort me",
+            "Your love for learning new things",
+            "The way you take care of me when I'm sick",
+            "Your amazing attention to detail",
+            "How you make every day feel special",
+            "Your ability to find joy in little things"
+        ];
+        
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        const moreReasonsContainer = document.getElementById('moreReasons');
+        
+        showMoreBtn.addEventListener('click', function() {
+            if (moreReasonsContainer.classList.contains('hidden')) {
+                moreReasonsContainer.classList.remove('hidden');
+                showMoreBtn.textContent = 'Show Fewer Reasons';
+                
+                // Add more reasons
+                moreReasonsContainer.innerHTML = '';
+                moreReasons.forEach(reason => {
+                    const reasonDiv = document.createElement('div');
+                    reasonDiv.className = 'bg-pink-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-all';
+                    reasonDiv.innerHTML = `
+                        <div class="text-pink-600 text-2xl mb-3"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-semibold mb-2">${reason}</h3>
+                    `;
+                    moreReasonsContainer.appendChild(reasonDiv);
+                });
+            } else {
+                moreReasonsContainer.classList.add('hidden');
+                showMoreBtn.textContent = 'Show More Reasons';
+            }
+        });
+        
+        // Envelope and Letter Animation
+        document.querySelector('.envelope').addEventListener('click', function() {
+            const envelope = this;
+            const letterContent = envelope.querySelector('.letter-content').innerHTML;
+            const extractedLetter = document.querySelector('.extracted-letter');
+            
+            // Toggle envelope open state
+            envelope.classList.toggle('open');
+            
+            if (envelope.classList.contains('open')) {
+                // Show the extracted letter
+                extractedLetter.innerHTML = letterContent;
+                extractedLetter.classList.add('visible');
+                
+                // Hide the content inside the envelope
+                envelope.querySelector('.letter-content').style.opacity = '0';
+            } else {
+                // Hide the extracted letter
+                extractedLetter.classList.remove('visible');
+                
+                // Show the content inside the envelope
+                envelope.querySelector('.letter-content').style.opacity = '1';
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add floating animation to elements
+        const floatingElements = document.querySelectorAll('.floating');
+        floatingElements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // Add fade-in animation when scrolling
+        const fadeElements = document.querySelectorAll('.fade-in-on-scroll');
+        
+        function checkFade() {
+            fadeElements.forEach(el => {
+                const elTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elTop < windowHeight - 100) {
+                    el.classList.add('fade-in');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkFade);
+        window.addEventListener('load', checkFade);
+
+        // Special Message Functions
+        function showLoveMessage() {
+            const messages = [
+                "Every moment with you is a blessing ❤️",
+                "You make my heart skip a beat 💓",
+                "You're the reason I smile every day 😊",
+                "My love for you grows stronger each day 💝",
+                "You're my everything 💖"
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showModal(randomMessage);
+        }
+
+        function showForeverMessage() {
+            const messages = [
+                "Forever and always, my love 💑",
+                "You're my today and all my tomorrows 💕",
+                "My heart belongs to you forever 💘",
+                "Together forever, no matter what 💗",
+                "You're my forever and always 💞"
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showModal(randomMessage);
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById('specialMessageModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Clear any existing floating hearts
+            const existingHearts = modal.querySelectorAll('.heart');
+            existingHearts.forEach(heart => heart.remove());
+            
+            modalContent.innerHTML = `
+                <div class="dancing-font text-2xl text-pink-600 mb-4">${message}</div>
+                <div class="heart mx-auto mb-4"></div>
+                <button onclick="closeModal()" class="bg-pink-600 text-white px-6 py-2 rounded-full hover:bg-pink-700 transition-all">
+                    Close
+                </button>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modal.style.opacity = '0';
+            
+            // Trigger reflow
+            modal.offsetHeight;
+            
+            // Fade in
+            modal.style.transition = 'opacity 0.3s ease-in-out';
+            modal.style.opacity = '1';
+            
+            // Add floating hearts animation
+            createFloatingHearts();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('specialMessageModal');
+            
+            // Fade out
+            modal.style.opacity = '0';
+            
+            // Wait for fade out animation to complete
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                
+                // Clear floating hearts
+                const hearts = modal.querySelectorAll('.heart');
+                hearts.forEach(heart => heart.remove());
+                
+                // Reset opacity for next time
+                modal.style.opacity = '1';
+            }, 300);
+        }
+
+        function createFloatingHearts() {
+            const container = document.getElementById('specialMessageModal');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart opacity-30 absolute';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animation = `floating ${2 + Math.random() * 2}s ease-in-out infinite`;
+                container.appendChild(heart);
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('specialMessageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('specialMessageModal');
+                if (!modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
